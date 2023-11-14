@@ -1,3 +1,9 @@
+drop database if exists 'minimart';
+create database 'minimart';
+use 'minimart';
+set names utf16;
+set character_set_client=utf8mb4;
+
 create table customer (Name char(20) not null,Ph_No bigint unique primary key ,Sim_type char(20) , Plans char(20), Fixed_rental integer);
 
 insert into customer

@@ -1,6 +1,6 @@
 #Connecting To MySQL Database
 import mysql.connector as sqltor
-mycon=sqltor.connect(host="localhost",user="root",passwd="@123456",database="telecommunication")
+mycon=sqltor.connect(host="127.0.0.1",user="root",passwd="mysql",database="tele_dbms")
 if mycon.is_connected()==False:
     print("Error connecting to mysql database")
 cursor=mycon.cursor()

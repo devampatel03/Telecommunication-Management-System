@@ -1,4 +1,10 @@
-create table call_records  (Name char(20),Ph_No bigint unique primary key,Call_logs_per_day char(20) , Call_received_Hour_min char(20), Call_ended_Hour_min char (20),Call_duration_Hour_min char(20),Location_of_phone_number char(20));
+use tele_dbms;
+
+create table call_records  (Name char(20),Ph_No bigint,
+Call_logs_per_day char(20) , Call_received_Hour_min char(20), Call_ended_Hour_min char (20),
+Call_duration_Hour_min char(20),Location_of_phone_number char(20),
+ constraint fk_records1 foreign key (Name,Ph_No)references personal(Name,Ph_No) on update cascade on delete cascade);
+
 
 insert into call_records
 values ('Yashraj Oberoi',8570099914,'6543209122','00:00','01:21','01:21','Tamil Nadu');

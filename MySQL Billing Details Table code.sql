@@ -1,4 +1,8 @@
-create table billing (Name char(25), Ph_No bigint unique primary key , Usage_Rs float(10,2), Fixed_Rentabl_Rs int, Total_GST float(10,2), Previous_Due float(3,2), Total_Bill float(10,2), Due_Date date);
+use tele_dbms;
+
+create table billing (Name char(25), Ph_No bigint , Usage_Rs float(10,2),
+ Fixed_Rentabl_Rs int, Total_GST float(10,2), Previous_Due float(3,2), Total_Bill float(10,2), Due_Date date,
+ constraint fk_billing1 foreign key (Name,Ph_No)references personal(Name,Ph_No) on update cascade on delete cascade);
 
 insert into billing
 values('Yashraj Oberoi',8570099914,451.29,45,570.73,004.11,574.84,"2021-06-10");

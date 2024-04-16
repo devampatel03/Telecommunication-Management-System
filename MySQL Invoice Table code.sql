@@ -32,3 +32,4 @@ insert into invoice
 values (208,'Ayan Parmar',9825600071,'Prepaid','2023-04-02',16,'Debit Card');
 
 select * from invoice;
+	

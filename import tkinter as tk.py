@@ -160,84 +160,156 @@
 # #     app.run(debug=True)
 
 
-import tkinter as tk
-from tkinter import messagebox
+# import tkinter as tk
+# from tkinter import messagebox
+# import mysql.connector
+
+# # Connect to the MySQL database
+# conn = mysql.connector.connect(
+#     host="127.0.0.1",
+#     user="root",
+#     password="mysql",
+#     database="tele_dbms"
+# )
+
+# # Function to handle login for both user and admin
+# def login():
+#     username = username_entry.get()
+#     password = password_entry.get()
+#     if username == "user" and password == "userpass":
+#         user_menu()
+#     elif username == "admin" and password == "adminpass":
+#         admin_menu()
+#     else:
+#         messagebox.showerror("Error", "Invalid username or password")
+
+# # Function to display user menu
+# def user_menu():
+#     window.destroy()  # Close login window
+#     user_window = tk.Tk()
+#     user_window.title("User Menu")
+
+#     # Add functionality buttons
+#     def get_plan_details():
+#         cursor = conn.cursor()
+#         # Your logic to fetch plan details based on user data
+#         cursor.close()
+
+#     plan_details_button = tk.Button(user_window, text="My Plan Details", command=get_plan_details)
+#     plan_details_button.pack()
+
+#     # Add other functionality buttons here
+
+#     user_window.mainloop()
+
+# # Function to display admin menu
+# def admin_menu():
+#     window.destroy()  # Close login window
+#     admin_window = tk.Tk()
+#     admin_window.title("Admin Menu")
+
+#     # Add functionality buttons
+#     def add_new_customer():
+#         cursor = conn.cursor()
+#         # Your logic to add a new customer
+#         cursor.close()
+
+#     add_customer_button = tk.Button(admin_window, text="Add New Customer", command=add_new_customer)
+#     add_customer_button.pack()
+
+#     # Add other functionality buttons here
+
+#     admin_window.mainloop()
+
+# # GUI setup for login
+# window = tk.Tk()
+# window.title("Login")
+
+# # Create labels and entry fields for username and password
+# username_label = tk.Label(window, text="Username:")
+# username_label.grid(row=0, column=0, padx=10, pady=5)
+# username_entry = tk.Entry(window)
+# username_entry.grid(row=0, column=1, padx=10, pady=5)
+
+# password_label = tk.Label(window, text="Password:")
+# password_label.grid(row=1, column=0, padx=10, pady=5)
+# password_entry = tk.Entry(window, show="*")
+# password_entry.grid(row=1, column=1, padx=10, pady=5)
+
+# # Create login button
+# login_button = tk.Button(window, text="Login", command=login)
+# login_button.grid(row=2, column=0, columnspan=2, padx=10, pady=5)
+
+# window.mainloop()
+import sys
 import mysql.connector
 
-# Connect to the MySQL database
-conn = mysql.connector.connect(
-    host="127.0.0.1",
-    user="root",
-    password="mysql",
-    database="tele_dbms"
-)
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QLineEdit, QPushButton, QVBoxLayout
 
-# Function to handle login for both user and admin
-def login():
-    username = username_entry.get()
-    password = password_entry.get()
-    if username == "user" and password == "userpass":
-        user_menu()
-    elif username == "admin" and password == "adminpass":
-        admin_menu()
-    else:
-        messagebox.showerror("Error", "Invalid username or password")
+class UserLoginWidget(QWidget):
+    def __init__(self, conn, parent=None):
+        super().__init__(parent)
+        self.conn = conn
 
-# Function to display user menu
-def user_menu():
-    window.destroy()  # Close login window
-    user_window = tk.Tk()
-    user_window.title("User Menu")
+        self.init_ui()
 
-    # Add functionality buttons
-    def get_plan_details():
-        cursor = conn.cursor()
-        # Your logic to fetch plan details based on user data
-        cursor.close()
+    def init_ui(self):
+        self.setWindowTitle("User Login")
+        
+        self.username_label = QLabel("Username:")
+        self.username_input = QLineEdit()
+        self.password_label = QLabel("Password:")
+        self.password_input = QLineEdit()
+        self.login_button = QPushButton("Login")
 
-    plan_details_button = tk.Button(user_window, text="My Plan Details", command=get_plan_details)
-    plan_details_button.pack()
+        layout = QVBoxLayout()
+        layout.addWidget(self.username_label)
+        layout.addWidget(self.username_input)
+        layout.addWidget(self.password_label)
+        layout.addWidget(self.password_input)
+        layout.addWidget(self.login_button)
 
-    # Add other functionality buttons here
+        self.login_button.clicked.connect(self.handle_login)
 
-    user_window.mainloop()
+        self.setLayout(layout)
 
-# Function to display admin menu
-def admin_menu():
-    window.destroy()  # Close login window
-    admin_window = tk.Tk()
-    admin_window.title("Admin Menu")
+    def handle_login(self):
+        username = self.username_input.text()
+        password = self.password_input.text()
+        # Call the user_login function passing the username, password, and conn
+        # Display appropriate messages or open the user's functionality window based on the return value
+        # For simplicity, let's assume the user_login function returns True if login is successful
+        
+        # Example:
+        # success = user_login(username, password, self.conn)
+        # if success:
+        #     self.open_user_functionality_window()
+        # else:
+        #     self.show_error_message("Invalid username or password")
 
-    # Add functionality buttons
-    def add_new_customer():
-        cursor = conn.cursor()
-        # Your logic to add a new customer
-        cursor.close()
+def connect_to_database():
+    try:
+        conn = mysql.connector.connect(
+            host="127.0.0.1",
+            user="root",
+            password="mysql",
+            database="tele_dbms"
+        )
+        return conn
+    except mysql.connector.Error as e:
+        print("Error connecting to MySQL database:", e)
+        return None
+def main():
+    app = QApplication(sys.argv)
+    conn = connect_to_database()
 
-    add_customer_button = tk.Button(admin_window, text="Add New Customer", command=add_new_customer)
-    add_customer_button.pack()
+    if conn is None:
+        sys.exit()
 
-    # Add other functionality buttons here
+    user_login_widget = UserLoginWidget(conn)
+    user_login_widget.show()
 
-    admin_window.mainloop()
+    sys.exit(app.exec_())
 
-# GUI setup for login
-window = tk.Tk()
-window.title("Login")
-
-# Create labels and entry fields for username and password
-username_label = tk.Label(window, text="Username:")
-username_label.grid(row=0, column=0, padx=10, pady=5)
-username_entry = tk.Entry(window)
-username_entry.grid(row=0, column=1, padx=10, pady=5)
-
-password_label = tk.Label(window, text="Password:")
-password_label.grid(row=1, column=0, padx=10, pady=5)
-password_entry = tk.Entry(window, show="*")
-password_entry.grid(row=1, column=1, padx=10, pady=5)
-
-# Create login button
-login_button = tk.Button(window, text="Login", command=login)
-login_button.grid(row=2, column=0, columnspan=2, padx=10, pady=5)
-
-window.mainloop()
+if __name__ == "__main__":
+    main()

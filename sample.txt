@@ -1,0 +1,201 @@
+Ticket :
+
+Attributes: Ticket_Status,Date_Raised,Cust_Id,Issue,Ticket_No
+
+FD: Ticket_No --> Ticket_Status,Date_Raised,Cust_Id,Issue
+
+### **2NF**
+
+ The candiates keys are { Ticket_No}, The set of key attributes are: { Ticket_No }for each non-trivial FD, check whether the LHS is a proper subset of some candidate key or the RHS are not all key attributeschecking FD: Ticket_No --> Ticket_Status,Date_Raised,Cust_Id,Issue
+
+### **3NF**
+
+  The candiates keys are { Ticket_No}, The set of key attributes are: { Ticket_No }for each FD, check whether the LHS is superkey or the RHS are all key attributeschecking functional dependency Ticket_No --> Ticket_Status,Date_Raised,Cust_Id,Issue
+
+### **BCNF**
+
+A table is in BCNF if and only if for every non-trivial FD, the LHS is a superkey.
+
+                                                                                             call_records :
+
+attributes:Ph_No, Call_type_per_day,Name, Call_received_Hour_min, Call_ended_Hour_min, Call_duration_Hour_min, Location_of_phone_number
+
+FD: Ph_No, Call_type_per_day -> Name, Call_received_Hour_min, Call_ended_Hour_min, Call_duration_Hour_min, Location_of_phone_number
+
+### 
+
+### **2NF**
+
+ The candiates keys are { Ph_No,Call_type_per_day}, The set of key attributes are: { Ph_No,Call_type_per_day }for each non-trivial FD, check whether the LHS is a proper subset of some candidate key or the RHS are not all key attributeschecking FD: Ph_No,Call_type_per_day --> Name,Call_received_Hour_min,Call_ended_Hour_min,Call_duration_Hour_min,Location_of_phone_number
+
+### **3NF**
+
+  The candiates keys are { Ph_No,Call_type_per_day}, The set of key attributes are: { Ph_No,Call_type_per_day }for each FD, check whether the LHS is superkey or the RHS are all key attributeschecking functional dependency Ph_No,Call_type_per_day --> Name,Call_received_Hour_min,Call_ended_Hour_min,Call_duration_Hour_min,Location_of_phone_number
+
+### **BCNF**
+
+A table is in BCNF if and only if for every non-trivial FD, the LHS is a superkey.
+
+                                                                                             personal :
+
+attri    :Name,Address,Ph_No.,Alt. Mobile No.,DOB,Email_ID,Aadhar No.
+
+### **2NF**
+
+ The candiates keys are { Ph_No.,Alt.MobileNo.}, The set of key attributes are: { Ph_No.,Alt.MobileNo. }for each non-trivial FD, check whether the LHS is a proper subset of some candidate key or the RHS are not all key attributeschecking FD: Ph_No.,Alt.MobileNo. --> Name,Address,DOB,Email_ID,AadharNo.
+
+### **3NF**
+
+  The candiates keys are { Ph_No.,Alt.MobileNo.}, The set of key attributes are: { Ph_No.,Alt.MobileNo. }for each FD, check whether the LHS is superkey or the RHS are all key attributeschecking functional dependency Ph_No.,Alt.MobileNo. --> Name,Address,DOB,Email_ID,AadharNo.
+
+### **BCNF**
+
+A table is in BCNF if and only if for every non-trivial FD, the LHS is a superkey.
+
+                                                                                             customer :
+
+attribu : Cust_ID,Name, Ph_No, Sim_type, Plan_No, Fixed_rental
+
+fd : Cust_ID -> Name, Ph_No, Sim_type, Plan_No, Fixed_rental
+
+### **2NF**
+
+ The candiates keys are { Cust_ID}, The set of key attributes are: { Cust_ID }for each non-trivial FD, check whether the LHS is a proper subset of some candidate key or the RHS are not all key attributeschecking FD: Cust_ID --> Name,Ph_No,Sim_type,Plan_No,Fixed_rental
+
+### **3NF**
+
+  The candiates keys are { Cust_ID}, The set of key attributes are: { Cust_ID }for each FD, check whether the LHS is superkey or the RHS are all key attributeschecking functional dependency Cust_ID --> Name,Ph_No,Sim_type,Plan_No,Fixed_rental
+
+### **BCNF**
+
+A table is in BCNF if and only if for every non-trivial FD, the LHS is a superkey.
+
+                                                                                              store:
+
+attri: Store_No,Address, City, Contact_No
+
+fd : Store_No -> Address, City, Contact_No
+
+### **2NF**
+
+ The candiates keys are { Store_No}, The set of key attributes are: { Store_No }for each non-trivial FD, check whether the LHS is a proper subset of some candidate key or the RHS are not all key attributeschecking FD: Store_No --> Address,City,Contact_No
+
+### **3NF**
+
+  The candiates keys are { Store_No}, The set of key attributes are: { Store_No }for each FD, check whether the LHS is superkey or the RHS are all key attributeschecking functional dependency Store_No --> Address,City,Contact_No
+
+### **BCNF**
+
+A table is in BCNF if and only if for every non-trivial FD, the LHS is a superkey.
+
+                                                                                             data_usage
+
+attri: Ph_No, Session_Start_Time, Session_End_Time,Name, Data_Usage_Gb, Remaining_Data_Gb
+
+fd: Ph_No, Session_Start_Time, Session_End_Time -> Name, Data_Usage_Gb, Remaining_Data_Gb
+
+### **2NF**
+
+ The candiates keys are { Ph_No,Session_Start_Time,Session_End_Time}, The set of key attributes are: { Ph_No,Session_Start_Time,Session_End_Time }for each non-trivial FD, check whether the LHS is a proper subset of some candidate key or the RHS are not all key attributeschecking FD: Ph_No,Session_Start_Time,Session_End_Time --> Name,Data_Usage_Gb,Remaining_Data_Gb
+
+### **3NF**
+
+  The candiates keys are { Ph_No,Session_Start_Time,Session_End_Time}, The set of key attributes are: { Ph_No,Session_Start_Time,Session_End_Time }for each FD, check whether the LHS is superkey or the RHS are all key attributeschecking functional dependency Ph_No,Session_Start_Time,Session_End_Time --> Name,Data_Usage_Gb,Remaining_Data_Gb
+
+### **BCNF**
+
+A table is in BCNF if and only if for every non-trivial FD, the LHS is a superkey.
+
+coupon:
+
+attri : Coupon_No,Brand, Price, Valid_Upto
+
+fd: Coupon_No -> Brand, Price, Valid_Upto
+
+### **2NF**
+
+ The candiates keys are { Coupon_No}, The set of key attributes are: { Coupon_No }for each non-trivial FD, check whether the LHS is a proper subset of some candidate key or the RHS are not all key attributeschecking FD: Coupon_No --> Brand,Price,Valid_Upto
+
+### **3NF**
+
+  The candiates keys are { Coupon_No}, The set of key attributes are: { Coupon_No }for each FD, check whether the LHS is superkey or the RHS are all key attributeschecking functional dependency Coupon_No --> Brand,Price,Valid_Upto
+
+### **BCNF**
+
+A table is in BCNF if and only if for every non-trivial FD, the LHS is a superkey.
+
+invoice :
+
+attri : 
+
+Invoice_No,Name, Ph_No, Sim_type, Invoice_Date, Total_Payment, Payment_Mode
+
+fd: 
+
+Invoice_No -> Name, Ph_No, Sim_type, Invoice_Date, Total_Payment, Payment_Mode
+
+### **2NF**
+
+ The candiates keys are { Invoice_No}, The set of key attributes are: { Invoice_No }for each non-trivial FD, check whether the LHS is a proper subset of some candidate key or the RHS are not all key attributeschecking FD: Invoice_No --> Name,Ph_No,Sim_type,Invoice_Date,Total_Payment,Payment_Mode
+
+### **3NF**
+
+  The candiates keys are { Invoice_No}, The set of key attributes are: { Invoice_No }for each FD, check whether the LHS is superkey or the RHS are all key attributeschecking functional dependency Invoice_No --> Name,Ph_No,Sim_type,Invoice_Date,Total_Payment,Payment_Mode
+
+### **BCNF**
+
+A table is in BCNF if and only if for every non-trivial FD, the LHS is a superkey.
+
+recharge :
+
+attri: Recharge_ID,Name, Ph_No, Plan_No, Recharge_Date, Due_Date, Activation_Time, Price
+
+fd : Recharge_ID -> Name, Ph_No, Plan_No, Recharge_Date, Due_Date, Activation_Time, Price
+
+### **2NF**
+
+ The candiates keys are { Recharge_ID}, The set of key attributes are: { Recharge_ID }for each non-trivial FD, check whether the LHS is a proper subset of some candidate key or the RHS are not all key attributeschecking FD: Recharge_ID --> Name,Ph_No,Plan_No,Recharge_Date,Due_Date,Activation_Time,Price
+
+### **3NF**
+
+  The candiates keys are { Recharge_ID}, The set of key attributes are: { Recharge_ID }for each FD, check whether the LHS is superkey or the RHS are all key attributeschecking functional dependency Recharge_ID --> Name,Ph_No,Plan_No,Recharge_Date,Due_Date,Activation_Time,Price
+
+### **BCNF**
+
+A table is in BCNF if and only if for every non-trivial FD, the LHS is a superkey.
+
+recharge_plans:
+
+attri : Plan_No,Price, Data, Calls, SMS, Validity, Other_benefits
+
+fd :Plan_No -> Price, Data, Calls, SMS, Validity, Other_benefits
+
+### **2NF**
+
+ The candiates keys are { Plan_No}, The set of key attributes are: { Plan_No }for each non-trivial FD, check whether the LHS is a proper subset of some candidate key or the RHS are not all key attributeschecking FD: Plan_No --> Price,Data,Calls,SMS,Validity,Other_benefits
+
+### **3NF**
+
+  The candiates keys are { Plan_No}, The set of key attributes are: { Plan_No }for each FD, check whether the LHS is superkey or the RHS are all key attributeschecking functional dependency Plan_No --> Price,Data,Calls,SMS,Validity,Other_benefits
+
+### **BCNF**
+
+A table is in BCNF if and only if for every non-trivial FD, the LHS is a superkey.
+
+billing :
+
+attri :Ph_No, Due_Date,Name, Usage_Rs, Fixed_Rentalb_Rs, Total_GST, Previous_Due, Total_Bill
+
+fd :Ph_No, Due_Date -> Name, Usage_Rs, Fixed_Rentalb_Rs, Total_GST, Previous_Due, Total_Bill
+
+### **2NF**
+
+ The candiates keys are { Ph_No,Due_Date}, The set of key attributes are: { Ph_No,Due_Date }for each non-trivial FD, check whether the LHS is a proper subset of some candidate key or the RHS are not all key attributeschecking FD: Ph_No,Due_Date --> Name,Usage_Rs,Fixed_Rentalb_Rs,Total_GST,Previous_Due,Total_Bill
+
+### **3NF**
+
+  The candiates keys are { Ph_No,Due_Date}, The set of key attributes are: { Ph_No,Due_Date }for each FD, check whether the LHS is superkey or the RHS are all key attributeschecking functional dependency Ph_No,Due_Date --> Name,Usage_Rs,Fixed_Rentalb_Rs,Total_GST,Previous_Due,Total_Bill
+
+### **BCNF**
+
+A table is in BCNF if and only if for every non-trivial FD, the LHS is a superkey.

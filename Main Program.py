@@ -1,6 +1,7 @@
-
-
 import mysql.connector
+import random
+from datetime import datetime, timedelta
+
 def connect_to_database():
     try:
         conn = mysql.connector.connect(
@@ -49,25 +50,39 @@ def recharge_mobile(customer,conn):
     cursor = conn.cursor()
     mobile_number = customer['Ph_No']
     
+    cursor.execute("SELECT MAX(Recharge_ID) FROM recharge")
+    max_recharge_id = cursor.fetchone()[0]
+    new_recharge_id = max_recharge_id + 1 if max_recharge_id is not None else 1
+
+    recharge_date = datetime.now().date()
+
+    due_date = recharge_date + timedelta(days=random.randint(1, 30))
+
+    activation_time = f"{random.randint(0, 23)}:{random.randint(0, 59)}"
+
     if customer['Sim_type'] == 'Prepaid':
         new_plan_no = str(input("Enter new plan number: "))
     elif customer['Sim_type'] == 'Postpaid':
+        new_plan_no=None
         recharge_amount = float(input("Enter recharge amount: "))
 
     if recharge_amount <= 0:
         print("Invalid recharge amount. Please enter a valid amount.")
         return
-    # Update user's balance in the database (for prepaid users) or add a new invoice (for postpaid users)
-    if customer['Sim_type'] == 'Prepaid':
-        query = "UPDATE customer SET Plan_No = %s WHERE Ph_No = %s"
-        cursor.execute(query, (new_plan_no, mobile_number))
-    elif customer['Sim_type'] == 'Postpaid':
-        query="SELECT * from invoice"
-        cursor.execute(query)
-        invoices=cursor.fetchall()
-        invoice_no=invoices[-1][0]+1
-        query = "INSERT INTO invoice (Invoice_No,Name, Ph_No, Invoice_Date, Total_Payment, Payment_Mode) VALUES (%s,%s, %s, CURDATE(), %s, %s)"
-        cursor.execute(query, (invoice_no,customer['Name'], mobile_number, recharge_amount, 'Online Payment'))
+    
+
+    query = "UPDATE customer SET Plan_No = %s WHERE Ph_No = %s"
+    cursor.execute(query, (new_plan_no, mobile_number))
+    query = "INSERT INTO recharge (Recharge_ID, Name, Ph_No, Plan_No, Recharge_Date, Due_Date, Activation_Time, Price) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+    cursor.execute(query, (new_recharge_id, customer['Name'], mobile_number, new_plan_no, recharge_date, due_date, activation_time, recharge_amount))
+    
+
+    query="SELECT * from invoice"
+    cursor.execute(query)
+    invoices=cursor.fetchall()
+    invoice_no=invoices[-1][0]+1
+    query = "INSERT INTO invoice (Invoice_No,Name, Ph_No, Invoice_Date, Total_Payment, Payment_Mode) VALUES (%s,%s, %s, CURDATE(), %s, %s)"
+    cursor.execute(query, (invoice_no,customer['Name'], mobile_number, recharge_amount, 'Online Payment'))
     conn.commit()
     print("Recharge successful!")
     print("\n")
@@ -115,9 +130,11 @@ def get_recharge_history(user,conn):
     print("             Your recharge history:")
     for recharge in recharge_history:
         print("Recharge ID:", recharge[0])
+        print("Recharge Plan:", recharge[1])
         print("Recharge Date:", recharge[4])
+        print("Valid Upto :", recharge[5])
+        print("Activation Time:", recharge[6])
         print("Recharge Amount:", recharge[7])
-        print("Payment Mode:", recharge[8])
         print("\n")
     cursor.close()
 
@@ -143,7 +160,7 @@ def check_call_logs(user,conn):
     call_logs = cursor.fetchall()
     print("               Your call logs:")
     for log in call_logs:
-        print("Call Logs Per Day:", log[2])
+        print("Reciever's Mobile Number:", log[2])
         print("Call Received Hour Min:", log[3])
         print("Call Ended Hour Min:", log[4])
         print("Call Duration Hour Min:", log[5])
@@ -169,7 +186,9 @@ def get_coupons(user,conn):
 # Function to update user's profile
 def update_profile(user,conn):
     cursor = conn.cursor()
+    
     # Fetch user's current profile details
+    
     query = "SELECT * FROM personal WHERE Name = %s AND Ph_No = %s"
     cursor.execute(query, (user['Name'], user['Ph_No']))
     current_profile = cursor.fetchone()
@@ -182,13 +201,17 @@ def update_profile(user,conn):
     print("Date of Birth:", current_profile[5])
     print("Aadhaar Number:", current_profile[6])
     print("\n")
+    
     # Ask user for updated details
+    
     new_name = input("Enter new name (leave empty to keep current): ").strip() or current_profile[0]
     new_alt_ph_no = input("Enter new alternate phone number (leave empty to keep current): ").strip() or current_profile[2]
     new_address = input("Enter new address (leave empty to keep current): ").strip() or current_profile[3]
     new_email = input("Enter new email ID (leave empty to keep current): ").strip() or current_profile[4]
     new_dob = input("Enter new date of birth (YYYY-MM-DD) (leave empty to keep current): ").strip() or current_profile[5]
+    
     # Update user's profile in the database
+    
     query = "UPDATE personal SET Name = %s, Alt_Ph_No = %s, Address = %s, Email_ID = %s, DOB = %s WHERE Name = %s AND Ph_No = %s"
     cursor.execute(query, (new_name, new_alt_ph_no, new_address, new_email, new_dob, user['Name'], user['Ph_No']))
     conn.commit()
@@ -269,7 +292,7 @@ def add_new_customer(conn):
     else:
         plan_no = None
     fixed_rental = float(input("Enter fixed rental: "))
-    # Perform validation checks if necessary
+ 
     query = "INSERT INTO personal (Name, Ph_No, Alt_Ph_No, Address, Email_ID, DOB, Aadhaar_No, Username, Password) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
     cursor.execute(query, (name, ph_no, alt_no, address, email, dob, aadhaar, user_name, password))
     conn.commit()
@@ -419,6 +442,7 @@ def user_menu():
     print("12. My Tickets Raised")
     print("13. Logout")
     print("\n")
+
 # Function to display admin menu
 def admin_menu():
     print("                                          How can we help you today?")

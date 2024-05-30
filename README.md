@@ -1,6 +1,6 @@
-# Telecommunication DBMS Project
+# Telecommunication Database Management System
 
-Welcome to the Telecommunication DBMS Project! This project provides a database management system for a telecommunication service provider, offering functionalities for both users and administrators. This README will guide you through the setup, usage, and features of the system.
+This project provides a database management system for a telecommunication service provider, offering functionalities for both users and administrators. This README will guide you through the setup, usage, and features of the system.
 
 ## Table of Contents
 
